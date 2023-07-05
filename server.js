@@ -10,7 +10,7 @@ let db;
 
 mongodb.MongoClient.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(client => {
-    db = client.db();
+    db = client.db('website');
     console.log('Connected to MongoDB');
 
     app.listen(port, () => {
@@ -21,10 +21,10 @@ mongodb.MongoClient.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopolog
     console.error('Failed to connect to MongoDB:', err);
   });
 
-// ...
+app.use(express.static('public'));
 
 app.get('/items', (req, res) => {
-  db.collection('website.items') // Update the collection name
+  db.collection('items')
     .find({})
     .project({ _id: 0, id: 1, title: 1, imageLink: 1 })
     .toArray()
@@ -38,8 +38,8 @@ app.get('/items', (req, res) => {
 });
 
 app.get('/items/:id', (req, res) => {
-  const itemId = parseInt(req.params.title);
-  db.collection('website.items') // Update the collection name
+  const itemId = parseInt(req.params.id);
+  db.collection('items')
     .findOne({ id: itemId })
     .then(item => {
       if (!item) {
