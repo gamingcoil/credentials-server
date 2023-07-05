@@ -29,7 +29,7 @@ app.use(express.static('public'));
 app.get('/items', (req, res) => {
   db.collection('items')
     .find({})
-    .project({ _id: 0, id: 1, title: 1, imageLink: 1 })
+    .project({ _id: 0, id: 1, title: 1, imageLink: 1, description: 1 })
     .toArray()
     .then(items => {
       res.json(items);
