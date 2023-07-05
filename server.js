@@ -38,7 +38,7 @@ app.get('/items', (req, res) => {
 });
 
 app.get('/items/:id', (req, res) => {
-  const itemId = parseInt(req.params.id);
+  const itemId = parseInt(req.params.title);
   db.collection('website.items') // Update the collection name
     .findOne({ id: itemId })
     .then(item => {
