@@ -1,5 +1,6 @@
 const express = require('express');
 const mongodb = require('mongodb');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
@@ -8,9 +9,11 @@ const mongoUri = process.env.MONGO_URI;
 
 let db;
 
+app.use(cors()); // Enable CORS for all routes
+
 mongodb.MongoClient.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(client => {
-    db = client.db('website');
+    db = client.db('website'); // Specify the database name
     console.log('Connected to MongoDB');
 
     app.listen(port, () => {
