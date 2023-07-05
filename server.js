@@ -21,10 +21,10 @@ mongodb.MongoClient.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopolog
     console.error('Failed to connect to MongoDB:', err);
   });
 
-app.use(express.static('public'));
+// ...
 
 app.get('/items', (req, res) => {
-  db.collection('items')
+  db.collection('website.items') // Update the collection name
     .find({})
     .project({ _id: 0, id: 1, title: 1, imageLink: 1 })
     .toArray()
@@ -39,7 +39,7 @@ app.get('/items', (req, res) => {
 
 app.get('/items/:id', (req, res) => {
   const itemId = parseInt(req.params.id);
-  db.collection('items')
+  db.collection('website.items') // Update the collection name
     .findOne({ id: itemId })
     .then(item => {
       if (!item) {
@@ -50,19 +50,6 @@ app.get('/items/:id', (req, res) => {
     })
     .catch(err => {
       console.error('Failed to fetch item:', err);
-      res.status(500).send('Internal Server Error');
-    });
-});
-
-app.get('/items/all', (req, res) => {
-  db.collection('website.items')
-    .find({})
-    .toArray()
-    .then(items => {
-      res.json(items);
-    })
-    .catch(err => {
-      console.error('Failed to fetch all items:', err);
       res.status(500).send('Internal Server Error');
     });
 });
