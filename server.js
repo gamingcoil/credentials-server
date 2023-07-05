@@ -55,7 +55,7 @@ app.get('/items/:id', (req, res) => {
 });
 
 app.get('/items/all', (req, res) => {
-  db.collection('items')
+  db.collection('website.items')
     .find({})
     .toArray()
     .then(items => {
